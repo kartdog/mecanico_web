@@ -1,10 +1,14 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
-from .carro import Carro
+from .carro import *
 from tienda.models import Producto
 
 def carro_detalle(request):
-    return render(request, "carro_detalle.html", {})
+
+    carro = Carro(request)
+    carro_productos = carro.get_producto()
+
+    return render(request, "carro_detalle.html", {"carro_productos": carro_productos})
 
 def carro_agregar(request):
     carro = Carro(request)

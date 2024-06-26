@@ -9,5 +9,45 @@
             </div>
         </div>
     </header>
+    
+    <br>
 
+    <div class="container">
+        {% if carro_productos %}
+        {% for producto in carro_productos %}
+        <div class="card mb-3">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src="{{ producto.imagen.url }}" class="img-fluid rounded-start" alt="...">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                    <center>
+                        <h5 class="card-title">{{ producto.nombre }}</h5>
+                        <p class="card-text">{{ producto.descripcion }}</p>
+    
+                        {% if producto.is_oferta %}
+                            <!-- Sale badge -->
+                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem;">Oferta</div>
+                            <strike>
+                                ${{ producto.precio }}
+                            </strike>
+                            &nbsp;
+                            ${{ producto.oferta_precio }}
+                        {% else %}
+                            ${{ producto.precio }}
+                        {% endif %}
+                        <br>
+                        <br>
+    
+                    </center>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+        {% else %}
+          Vacio
+        {% endif %}
+    </div>
 {% endblock %}

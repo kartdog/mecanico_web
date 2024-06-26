@@ -1,3 +1,4 @@
+from tienda.models import *
 
 class Carro():
     def __init__(self, request):
@@ -25,3 +26,9 @@ class Carro():
 
     def __len__(self):
         return len(self.carro)
+    
+    def get_producto(self):
+        producto_ids = self.carro.keys()
+        productos = Producto.objects.filter(id__in=producto_ids)
+
+        return productos
