@@ -57,3 +57,8 @@ def register_user(request):
             return redirect('register')
 
     return render(request, 'register.html', {'form': form})
+
+# Producto
+def producto(request, pk):
+    producto = Producto.objects.get(id=pk)
+    return render(request, 'producto.html', {'producto': producto})
