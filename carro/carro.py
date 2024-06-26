@@ -14,13 +14,15 @@ class Carro():
         # Asegurar que carro este disponible en cualquier pág.
         self.carro = carro
 
-    def agregar(self, producto):
+    def agregar(self, producto, cantidad):
         producto_id = str(producto.id)
+        producto_qty = str(cantidad)
 
         if producto_id in self.carro:
             pass
         else:
-            self.carro[producto_id] = {'precio': str(producto.precio)}
+            # self.carro[producto_id] = {'precio': str(producto.precio)}
+            self.carro[producto_id] = int(producto_qty)
         
         self.session.modified = True
 
@@ -32,3 +34,7 @@ class Carro():
         productos = Producto.objects.filter(id__in=producto_ids)
 
         return productos
+    
+    def get_cantidades(self):
+        cantidades = self.carro
+        return cantidades

@@ -8,14 +8,18 @@ def carro_detalle(request):
     carro = Carro(request)
     carro_productos = carro.get_producto()
 
-    return render(request, "carro_detalle.html", {"carro_productos": carro_productos})
+    cantidades = carro.get_cantidades
+
+    return render(request, "carro_detalle.html", {"carro_productos": carro_productos, "cantidades": cantidades})
 
 def carro_agregar(request):
     carro = Carro(request)
     if request.POST.get('action') == 'post':
         producto_id = int(request.POST.get('producto_id'))
+        producto_qty = int(request.POST.get('producto_qty'))
+
         producto = get_object_or_404(Producto, id=producto_id)
-        carro.agregar(producto=producto)
+        carro.agregar(producto=producto, cantidad=producto_qty)
 
         carro_cantidad = carro.__len__()
 
