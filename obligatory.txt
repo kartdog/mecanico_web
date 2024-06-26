@@ -1,0 +1,14 @@
+obligatorio:
+	* carrusel, navbar, modal, card, imagenes.
+	* debe estar en la nube
+	* mensajes usuario (sweetalert2)
+	* responsiva
+	* API REST Framework django
+	* 2 APIS (obligatorio: miindicador.cl)
+	* Paginador
+	* AXES: bloque por minutos, ventana de bloqueo, reseteo de contador, limite de intentos.
+	* Formularios con CAPTCHA
+	* Hosting
+	* Voucher PDF
+	* Recuperar contraseña
+	* Metodo de pago
