@@ -50,3 +50,10 @@ class Carro():
 
         test = self.carro
         return test
+    
+    def eliminar(self, producto):
+        producto_id = str(producto)
+        if producto_id in self.carro:
+            del self.carro[producto_id]
+
+        self.session.modified = True

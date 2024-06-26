@@ -28,7 +28,14 @@ def carro_agregar(request):
         return response
 
 def carro_eliminar(request):
-    pass
+    carro = Carro(request)
+    if request.POST.get('action') == 'post':
+        producto_id = int(request.POST.get('producto_id'))
+
+        carro.eliminar(producto = producto_id)
+
+        response = JsonResponse({'product': producto_id})
+        return response
 
 def carro_actualizar(request):
     carro = Carro(request)

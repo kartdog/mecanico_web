@@ -63,6 +63,10 @@
                           Actualizar carrito
                         </button>
 
+                        <button type="button" data-index="{{producto.id}}" class="btn btn-danger eliminar-item">
+                          Eliminar
+                        </button>
+
                     </center>
                 </div>
               </div>
@@ -75,6 +79,7 @@
     </div>
 
 <script>
+  // Actualizar carro
   $(document).on('click', '.actualizar-carro', function(e){
     e.preventDefault();
 
@@ -85,6 +90,31 @@
       data: {
         producto_id: $(this).data('index'),
         producto_qty: $('#select' + productoid + ' option:selected').text(),
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+        action: 'post'
+      },
+
+      success: function(json){
+        location.reload();
+      },
+
+      error: function(xhr, errmsg, err){
+
+      }
+
+    });
+  })
+
+  // Eliminar item
+  $(document).on('click', '.eliminar-item', function(e){
+    e.preventDefault();
+
+    // var productoid = $(this).data('index')
+    $.ajax({
+      type: 'POST',
+      url: '{% url 'carro_eliminar' %}',
+      data: {
+        producto_id: $(this).data('index'),
         csrfmiddlewaretoken: '{{ csrf_token }}',
         action: 'post'
       },
