@@ -57,3 +57,22 @@ class Carro():
             del self.carro[producto_id]
 
         self.session.modified = True
+
+    def carro_total(self):
+        producto_ids = self.carro.keys()
+        productos = Producto.objects.filter(id__in=producto_ids)
+
+        cantidad = self.carro
+
+        total = 0
+        for key, value in cantidad.items():
+            key = int(key)
+            for producto in productos:
+                if producto.id == key:
+                    if producto.is_oferta:
+                        total = total + (producto.oferta_precio * value)
+                    else:
+                        total = total + (producto.precio * value)
+
+        return total
+

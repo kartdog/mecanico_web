@@ -8,9 +8,10 @@ def carro_detalle(request):
     carro = Carro(request)
     carro_productos = carro.get_producto()
 
-    cantidades = carro.get_cantidades
+    cantidades = carro.get_cantidades()
+    total = carro.carro_total()
 
-    return render(request, "carro_detalle.html", {"carro_productos": carro_productos, "cantidades": cantidades})
+    return render(request, "carro_detalle.html", {"carro_productos": carro_productos, "cantidades": cantidades, "total": total})
 
 def carro_agregar(request):
     carro = Carro(request)
