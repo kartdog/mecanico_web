@@ -8,7 +8,7 @@ class Carro():
 
         # Si el usuerio es nuevo, no hay sesión & se crea una.
         if 'session_key' not in request.session:
-            carro = self.session['sesion_key'] = {}
+            carro = self.session['session_key'] = {}
 
         # Asegurar que carro este disponible en cualquier pág.
         self.carro = carro
@@ -16,9 +16,12 @@ class Carro():
     def agregar(self, producto):
         producto_id = str(producto.id)
 
-        if producto in self.carro:
+        if producto_id in self.carro:
             pass
         else:
             self.carro[producto_id] = {'precio': str(producto.precio)}
         
-        self.session.modified =  True
+        self.session.modified = True
+
+    def __len__(self):
+        return len(self.carro)

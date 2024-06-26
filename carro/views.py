@@ -13,7 +13,10 @@ def carro_agregar(request):
         producto = get_object_or_404(Producto, id=producto_id)
         carro.agregar(producto=producto)
 
-        response = JsonResponse({'Producto: ': producto.nombre})
+        carro_cantidad = carro.__len__()
+
+        # response = JsonResponse({'Producto: ': producto.nombre})
+        response = JsonResponse({'qty': carro_cantidad})
         return response
 
 def carro_eliminar(request):

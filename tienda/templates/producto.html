@@ -58,6 +58,7 @@
 
       success: function(json){
         console.log(json)
+        document.getElementById('carro_cantidad').textContent = json.qty
       },
 
       error: function(xhr, errmsg, err){
