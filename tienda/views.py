@@ -1,7 +1,11 @@
+from django import forms
 from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .models import *
+from .forms import *
 
 # Inicio
 def index(request):
@@ -33,3 +37,23 @@ def logout_user(request):
     logout(request)
     messages.success(request, ("Has cerrado la sesión."))
     return redirect('index')
+
+# Registro
+def register_user(request):
+    form = SignUpForm()
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            # Logea
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            messages.success(request, ("Te has registrado exitosamente!"))
+            return redirect('index')
+        else:
+            messages.success(request, ("Ha ocurrido un error, intenta nuevamente."))
+            return redirect('register')
+
+    return render(request, 'register.html', {'form': form})
