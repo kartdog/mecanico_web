@@ -62,3 +62,14 @@ def register_user(request):
 def producto(request, pk):
     producto = Producto.objects.get(id=pk)
     return render(request, 'producto.html', {'producto': producto})
+
+# Categoria
+def categoria(request, foo):
+    foo = foo.replace('-', ' ')
+    try:
+        categoria = Categoria.objects.get(nombre=foo)
+        productos = Producto.objects.filter(categoria=categoria)
+        return render(request, 'categoria.html', {'productos': productos, 'categoria': categoria})
+    except:
+        messages.success(request, ("La categoria no existe."))
+        return redirect('index')

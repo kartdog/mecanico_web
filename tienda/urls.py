@@ -7,6 +7,8 @@ urlpatterns = [
     path('nosotros/', views.nosotros, name = 'nosotros'),
     # Productos
     path('producto/<int:pk>', views.producto, name = 'producto'),
+    # Categorias
+    path('categoria/<str:foo>', views.categoria, name = 'categoria'),
     # Login
     path('login/', views.login_user, name = 'login'),
     path('logout/', views.logout_user, name = 'logout'),
