@@ -31,6 +31,9 @@
                     <a href="{% url 'index' %}" class="btn btn-secondary">
                         Volver a inicio
                     </a>
+                    <button type="button" class="btn btn-secondary" value="{{ producto.id }}" id="carro-agregar">
+                      Agregar al carrito
+                    </button>
 
                 </center>
             </div>
@@ -38,5 +41,31 @@
         </div>
       </div>
 </div>
+
+<!-- Error en 'url' por alguna razon. (pero funciona.) -->
+
+<script>
+  $(document).on('click', '#carro-agregar', function(e){
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '{% url 'carro_agregar' %}',
+      data: {
+        producto_id: $('#carro-agregar').val(),
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+        action: 'post'
+      },
+
+      success: function(json){
+        console.log(json)
+      },
+
+      error: function(xhr, errmsg, err){
+
+      }
+
+    });
+  })
+</script>
 
 {% endblock %}

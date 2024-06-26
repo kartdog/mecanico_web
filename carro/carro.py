@@ -12,3 +12,13 @@ class Carro():
 
         # Asegurar que carro este disponible en cualquier pág.
         self.carro = carro
+
+    def agregar(self, producto):
+        producto_id = str(producto.id)
+
+        if producto in self.carro:
+            pass
+        else:
+            self.carro[producto_id] = {'precio': str(producto.precio)}
+        
+        self.session.modified =  True
