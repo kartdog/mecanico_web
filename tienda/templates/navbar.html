@@ -15,6 +15,9 @@
 
             {% if user.is_authenticated %}
                 <li class="nav-item">
+                    <a class="nav-link" href="{% url 'actualizar_usuario' %}">Perfíl</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a>
                 </li>
             {% else %}

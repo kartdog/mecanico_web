@@ -75,4 +75,3 @@ class Carro():
                         total = total + (producto.precio * value)
 
         return total
-

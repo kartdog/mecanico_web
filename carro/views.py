@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.contrib import messages
 from django.http import JsonResponse
 from .carro import *
 from tienda.models import Producto
@@ -26,6 +27,7 @@ def carro_agregar(request):
 
         # response = JsonResponse({'Producto: ': producto.nombre})
         response = JsonResponse({'qty': carro_cantidad})
+        messages.success(request, ("Producto agregado al carrito!"))
         return response
 
 def carro_eliminar(request):
@@ -36,6 +38,7 @@ def carro_eliminar(request):
         carro.eliminar(producto = producto_id)
 
         response = JsonResponse({'product': producto_id})
+        messages.success(request, ("El producto se ha eliminado del carrito!"))
         return response
 
 def carro_actualizar(request):
@@ -47,4 +50,5 @@ def carro_actualizar(request):
         carro.actualizar(producto= producto_id, cantidad = producto_qty)
 
         response = JsonResponse({'qty': producto_qty})
+        messages.success(request, ("El carrito se ha actualizado!"))
         return response

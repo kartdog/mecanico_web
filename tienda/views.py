@@ -58,6 +58,25 @@ def register_user(request):
 
     return render(request, 'register.html', {'form': form})
 
+# Usuario
+def actualizar_usuario(request):
+    if request.user.is_authenticated:
+        usuario_actual = User.objects.get(id=request.user.id)
+        form_usuario = UpdateUserForm(request.POST or None, instance = usuario_actual)
+
+        if form_usuario.is_valid():
+            form_usuario.save()
+
+            login(request, usuario_actual)
+            messages.success(request, "Usuario ha sido actualizado!")
+            return redirect('index')
+        return render(request, 'actualizar_usuario.html', {'form_usuario': form_usuario})
+    else:
+        messages.success(request, "Debes iniciar sesión para acceder a esa página.")
+        return redirect('index')
+
+    return render(request, 'actualizar_usuario.html', {})
+
 # Producto
 def producto(request, pk):
     producto = Producto.objects.get(id=pk)
