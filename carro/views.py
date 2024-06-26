@@ -31,4 +31,12 @@ def carro_eliminar(request):
     pass
 
 def carro_actualizar(request):
-    pass
+    carro = Carro(request)
+    if request.POST.get('action') == 'post':
+        producto_id = int(request.POST.get('producto_id'))
+        producto_qty = int(request.POST.get('producto_qty'))
+
+        carro.actualizar(producto= producto_id, cantidad = producto_qty)
+
+        response = JsonResponse({'qty': producto_qty})
+        return response

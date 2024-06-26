@@ -42,7 +42,7 @@
                         <div class="row justify-content-center">
                             <div class="col-md-2">Cantidad:</div>
                             <div class="col-md-2">
-                              <select class="form-select form-select-sm" id="qty-carro">
+                              <select class="form-select form-select-sm" id="select{{producto.id}}">
                                 
                                     {% for key, value in cantidades.items %}
                                         {% if key == producto.id|slugify%}
@@ -58,6 +58,11 @@
                           </div>
                         <br>
                         <br>
+
+                        <button type="button" data-index="{{producto.id}}" class="btn btn-secondary actualizar-carro">
+                          Actualizar carrito
+                        </button>
+
                     </center>
                 </div>
               </div>
@@ -68,4 +73,32 @@
           Vacio
         {% endif %}
     </div>
+
+<script>
+  $(document).on('click', '.actualizar-carro', function(e){
+    e.preventDefault();
+
+    var productoid = $(this).data('index')
+    $.ajax({
+      type: 'POST',
+      url: '{% url 'carro_actualizar' %}',
+      data: {
+        producto_id: $(this).data('index'),
+        producto_qty: $('#select' + productoid + ' option:selected').text(),
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+        action: 'post'
+      },
+
+      success: function(json){
+        location.reload();
+      },
+
+      error: function(xhr, errmsg, err){
+
+      }
+
+    });
+  })
+</script>
+
 {% endblock %}
