@@ -16,6 +16,25 @@ class Carro():
         # Asegurar que carro este disponible en cualquier pág.
         self.carro = carro
 
+    def db_agregar(self, producto, cantidad):
+        producto_id = str(producto)
+        producto_qty = str(cantidad)
+
+        if producto_id in self.carro:
+            pass
+        else:
+            # self.carro[producto_id] = {'precio': str(producto.precio)}
+            self.carro[producto_id] = int(producto_qty)
+        
+        self.session.modified = True
+
+        if self.request.user.is_authenticated:
+            current_user = Perfil.objects.filter(usuario__id = self.request.user.id)
+            carrojson = str(self.carro)
+            carrojson = carrojson.replace("\'", "\"")
+
+            current_user.update(carrito_viejo = str(carrojson))
+
     def agregar(self, producto, cantidad):
         producto_id = str(producto.id)
         producto_qty = str(cantidad)
@@ -58,6 +77,13 @@ class Carro():
 
         self.session.modified = True
 
+        if self.request.user.is_authenticated:
+            current_user = Perfil.objects.filter(usuario__id = self.request.user.id)
+            carrojson = str(self.carro)
+            carrojson = carrojson.replace("\'", "\"")
+
+            current_user.update(carrito_viejo = str(carrojson))
+            
         test = self.carro
         return test
     
@@ -67,6 +93,13 @@ class Carro():
             del self.carro[producto_id]
 
         self.session.modified = True
+
+        if self.request.user.is_authenticated:
+            current_user = Perfil.objects.filter(usuario__id = self.request.user.id)
+            carrojson = str(self.carro)
+            carrojson = carrojson.replace("\'", "\"")
+
+            current_user.update(carrito_viejo = str(carrojson))
 
     def carro_total(self):
         producto_ids = self.carro.keys()

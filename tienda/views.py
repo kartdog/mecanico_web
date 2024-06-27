@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from rest_framework import viewsets
 from rest_framework.renderers import JSONRenderer
+from carro.carro import Carro
 from .serializers import *
 from .models import *
 from .forms import *
@@ -78,6 +79,20 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+
+            # Carrito
+            current_user = Perfil.objects.get(usuario__id=request.user.id)
+            # Obtener carrito
+            carro_guardado = current_user.carrito_viejo
+            # Convertir
+            if carro_guardado:
+                carro_convertido = json.loads(carro_guardado)
+                # añadir carrito
+                carro = Carro(request)
+
+                for key, value in carro_convertido.items():
+                    carro.db_agregar(producto=key, cantidad=value)
+
             messages.success(request, ("Has iniciado sesión."))
             return redirect('index')
         else:
