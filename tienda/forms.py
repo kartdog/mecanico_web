@@ -4,6 +4,20 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import *
 
+# Usuario
+class UserInfoForm(forms.ModelForm):
+    telefono = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Telefono'}), required=False)
+    direccion = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Dirección 1'}), required=False)
+    direccion_dos = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Dirección 2'}), required=False)
+    ciudad = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Ciudad'}), required=False)
+    comuna = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Comuna'}), required=False)
+    zipcode = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Zipcode'}), required=False)
+    pais = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Pais'}), required=False)
+
+    class Meta:
+        model = Perfil
+        fields = ('telefono', 'direccion', 'direccion_dos', 'ciudad', 'comuna', 'zipcode', 'pais',)
+
 # Empleado
 class EmpleadoForm(ModelForm):
 

@@ -104,9 +104,12 @@ def register_user(request):
             # Logea
             user = authenticate(username=username, password=password)
             login(request, user)
-            messages.success(request, ("Te has registrado exitosamente!"))
-            return redirect('index')
+            messages.success(request, ("Registrado! Rellena tus datos!"))
+            return redirect('actualizar_info')
         else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
             messages.success(request, ("Ha ocurrido un error, intenta nuevamente."))
             return redirect('register')
 
@@ -129,7 +132,19 @@ def actualizar_usuario(request):
         messages.success(request, "Debes iniciar sesión para acceder a esa página.")
         return redirect('index')
 
-    return render(request, 'actualizar_usuario.html', {})
+def actualizar_info(request):
+    if request.user.is_authenticated:
+        usuario_actual = Perfil.objects.get(usuario__id=request.user.id)
+        form = UserInfoForm(request.POST or None, instance = usuario_actual)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Tú informacion ha sido actualizada!")
+            return redirect('index')
+        return render(request, 'actualizar_info.html', {'form': form})
+    else:
+        messages.success(request, "Debes iniciar sesión para acceder a esa página.")
+        return redirect('index')
 
 # Empleado
 def empleados(request):

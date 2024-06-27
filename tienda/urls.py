@@ -32,6 +32,7 @@ urlpatterns = [
     path('register/', views.register_user, name = 'register'),
     # Usuario
     path('actualizar_usuario/', views.actualizar_usuario, name = 'actualizar_usuario'),
+    path('actualizar_info/', views.actualizar_info, name = 'actualizar_info'),
     # Empleados
     path('empleados/', views.empleados, name="empleados"),
     path('empleados/add/', views.empleadosadd, name="empleadosadd"),

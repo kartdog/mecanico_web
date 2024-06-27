@@ -24,3 +24,15 @@ obligatorio:
 
 	* Quedaste en incorporar api dolar a precio productos.
 	* Hay un error en categorias.
+
+	https://sandbox.paypal.com
+	TIENDA:
+	sb-rexls31270066@business.example.com
+	;jbSY8R!
+
+	CLIENTE ID:
+	ARmE2Xorf59Z7qluYglYGObPne7X6Aix-JFIEXOuiRwYjWkC18L5PfsbPSjFtZpojy6ep35Wa7SrOAyE
+
+	CLIENTE:
+	sb-ib2cy31401957@personal.example.com
+	O=>ivVJ4

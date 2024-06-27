@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
 import datetime
 import requests
 import json
@@ -41,6 +43,29 @@ class Cliente(models.Model):
     
     class Meta:
         verbose_name_plural = 'Clientes'
+
+# Perfiles
+class Perfil(models.Model):
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
+    date_modified = models.DateTimeField(User, auto_now=True)
+    telefono = models.CharField(max_length=20, blank=True)
+    direccion = models.CharField(max_length=200, blank=True)
+    direccion_dos = models.CharField(max_length=200, blank=True)
+    ciudad = models.CharField(max_length=200, blank=True)
+    comuna = models.CharField(max_length=200, blank=True)
+    zipcode = models.CharField(max_length=200, blank=True)
+    pais = models.CharField(max_length=200, blank=True)
+
+    def __str__(self):
+        return self.usuario.username
+    
+def crear_perfil(sender, instance, created, **kwargs):
+    if created:
+        user_profile = Perfil(usuario=instance)
+        user_profile.save()
+
+post_save.connect(crear_perfil, sender=User)
+
 
 # Categoria de productos
 class Categoria(models.Model):
