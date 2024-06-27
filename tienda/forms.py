@@ -11,6 +11,13 @@ class EmpleadoForm(ModelForm):
         model = Empleado
         fields = '__all__'
 
+# Servicio
+class ServicioForm(ModelForm):
+
+    class Meta:
+        model = Servicio
+        fields = '__all__'
+
 # Sesión
 class UpdateUserForm(UserChangeForm):
     password = None

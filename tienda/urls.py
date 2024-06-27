@@ -7,6 +7,11 @@ urlpatterns = [
     path('nosotros/', views.nosotros, name = 'nosotros'),
     # Productos
     path('producto/<int:pk>', views.producto, name = 'producto'),
+    # Servicios
+    path('servicios/', views.servicios, name="servicios"),
+    path('servicios/add/', views.serviciosadd, name="serviciosadd"),
+    path('servicios/crud/update/<id>/', views.serviciosupdate, name="serviciosupdate"),
+    path('servicios/crud/delete/<id>/', views.serviciosdelete, name="serviciosdelete"),
     # Categorias
     path('categoria/<str:foo>', views.categoria, name = 'categoria'),
     # Login

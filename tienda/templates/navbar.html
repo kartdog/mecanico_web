@@ -1,8 +1,9 @@
+{% load static %}
 
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light border">
 <div class="container px-4 px-lg-5">
-    <img src="../../static/assets/icon.png" alt="" height="25px" class="mx-2">
+    <img src="{% static 'assets/icon.png' %}" alt="" height="25px" class="mx-2">
     <a class="navbar-brand" href="{% url 'index' %}">Mechá</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -13,6 +14,7 @@
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="{% url 'nosotros' %}">Acerca de</a></li>
                     <li><a class="dropdown-item" href="{% url 'empleados' %}">Empleados</a></li>
+                    <li><a class="dropdown-item" href="{% url 'servicios' %}">Servicios</a></li>
                 </ul>
             </li>
 

@@ -142,6 +142,64 @@ def producto(request, pk):
     producto = Producto.objects.get(id=pk)
     return render(request, 'producto.html', {'producto': producto})
 
+# Servicio
+def servicios(request):
+    servicios = Servicio.objects.all()
+
+    aux = {
+        'lista' : servicios
+    }
+
+    return render(request, 'tienda/servicios/index.html', aux)
+
+@login_required
+def serviciosadd(request):
+    aux = {
+            'form' : ServicioForm()
+    }
+
+    if request.method == 'POST':
+        formulario = ServicioForm(request.POST, files=request.FILES)
+        if formulario.is_valid():
+            formulario.save()
+            aux['msj'] = 'Empleado almacenado correctamente!'
+            messages.success(request, ("El servicio se ha creado exitosamente!"))
+            return redirect('servicios')
+        else:
+            aux['form'] = formulario
+            aux['msj'] = 'No se pudo almacenar :('
+
+    return render(request, 'tienda/servicios/crud/add.html', aux)
+
+@permission_required('core.change_servicio')
+def serviciosupdate(request, id):
+    servicio = Servicio.objects.get(id=id)
+    aux = {
+            'form' : ServicioForm(instance = servicio)
+    }
+
+    if request.method == 'POST':
+        formulario = ServicioForm(data = request.POST, instance = servicio, files=request.FILES)
+        if formulario.is_valid():
+            formulario.save()
+            aux['form'] = formulario
+            aux['msj'] = 'Servicio modificado correctamente!'
+            messages.success(request, ("El servicio se ha modificado exitosamente!"))
+            return redirect('servicios')
+        else:
+            aux['form'] = formulario
+            aux['msj'] = 'No se pudo modificar :('
+
+    return render(request, 'tienda/servicios/crud/update.html', aux)
+
+@permission_required('core.delete_servicio')
+def serviciosdelete(request, id):
+    servicio = Servicio.objects.get(id=id)
+    servicio.delete()
+
+    messages.success(request, ("El servicio se ha eliminado exitosamente!"))
+    return redirect(to="servicios")
+
 # Categoria
 def categoria(request, foo):
     foo = foo.replace('-', ' ')

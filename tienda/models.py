@@ -52,6 +52,14 @@ class Producto(models.Model):
     class Meta:
         verbose_name_plural = 'Productos'
 
+# Servicio
+class Servicio(models.Model):
+    nombre_servicio = models.CharField(max_length=200)
+    descripcion_servicio = models.TextField(max_length=550)
+    imagen_servicio = models.ImageField(upload_to='uploads/servicio/', null=True, blank=True)
+    def __str__(self):
+        return self.nombre_servicio
+
 # Orden
 class Orden(models.Model):
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
