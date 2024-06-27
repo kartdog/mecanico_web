@@ -11,6 +11,23 @@ from .serializers import *
 from .models import *
 from .forms import *
 import requests
+import json
+
+# API Dolar
+class Mindicador:
+ 
+    def __init__(self, indicador, year):
+        self.indicador = indicador
+        self.year = year
+    
+    def InfoApi(self):
+        # En este caso hacemos la solicitud para el caso de consulta de un indicador en un año determinado
+        url = f'https://mindicador.cl/api/{self.indicador}/{self.year}'
+        response = requests.get(url)
+        data = json.loads(response.text.encode("utf-8"))
+        # Para que el json se vea ordenado, retornar pretty_json
+        pretty_json = json.dumps(data, indent=2)
+        return data
 
 # Viewset para manejar solicitudes tipo HTTP (GET, POST, PUT, DELETE)
 class EmpleadoViewSet(viewsets.ModelViewSet):
@@ -186,6 +203,65 @@ def productos(request):
     }
 
     return render(request, 'tienda/productos/index.html', aux)
+
+def productosadd(request):
+    aux = {
+            'form' : ProductoForm()
+    }
+
+    if request.method == 'POST':
+        formulario = ProductoForm(request.POST, files=request.FILES)
+        if formulario.is_valid():
+            formulario.save()
+            aux['msj'] = 'Empleado almacenado correctamente!'
+            messages.success(request, ("El producto se ha creado exitosamente!"))
+            return redirect('productos')
+        else:
+            print("No valido", formulario.errors)
+            aux['form'] = formulario
+            aux['msj'] = f'No se pudo almacenar :( {formulario.errors}'
+
+    indicador = 'dolar'
+    year = '2024'
+    api = Mindicador(indicador, year)
+    datos_api = api.InfoApi()
+
+    serie = datos_api.get('serie', [])
+    primer_item = serie[0] if serie else None
+    valor_api = primer_item.get('valor', 10) if primer_item else 10
+
+    aux['form'] = ProductoForm(initial={'precio_base': valor_api})
+
+    return render(request, 'tienda/productos/crud/add.html', aux)
+
+@permission_required('core.change_servicio')
+def productosupdate(request, id):
+    producto = Producto.objects.get(id=id)
+    aux = {
+            'form' : ProductoForm(instance = producto)
+    }
+
+    if request.method == 'POST':
+        formulario = ProductoForm(data = request.POST, instance = producto, files=request.FILES)
+        if formulario.is_valid():
+            formulario.save()
+            aux['form'] = formulario
+            aux['msj'] = 'Servicio modificado correctamente!'
+            messages.success(request, ("El producto se ha modificado exitosamente!"))
+            return redirect('productos')
+        else:
+            aux['form'] = formulario
+            aux['msj'] = 'No se pudo modificar :('
+
+    return render(request, 'tienda/productos/crud/update.html', aux)
+
+@permission_required('core.delete_servicio')
+def productosdelete(request, id):
+    producto = Producto.objects.get(id=id)
+    producto.delete()
+
+    messages.success(request, ("El producto se ha eliminado exitosamente!"))
+    return redirect(to="productos")
 
 # Servicio
 def servicios(request):

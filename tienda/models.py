@@ -1,5 +1,23 @@
 from django.db import models
 import datetime
+import requests
+import json
+
+# API
+class Mindicador:
+ 
+    def __init__(self, indicador, year):
+        self.indicador = indicador
+        self.year = year
+    
+    def InfoApi(self):
+        # En este caso hacemos la solicitud para el caso de consulta de un indicador en un año determinado
+        url = f'https://mindicador.cl/api/{self.indicador}/{self.year}'
+        response = requests.get(url)
+        data = json.loads(response.text.encode("utf-8"))
+        # Para que el json se vea ordenado, retornar pretty_json
+        pretty_json = json.dumps(data, indent=2)
+        return data
 
 # Empleado
 class Empleado(models.Model):
@@ -38,6 +56,9 @@ class Categoria(models.Model):
 class Producto(models.Model):
     nombre = models.CharField(max_length=100)
     precio = models.DecimalField(default=0, decimal_places=2, max_digits=6)
+    precio_base = models.DecimalField(max_digits=10, decimal_places=2, default=10)
+    multiplicador = models.PositiveIntegerField(default=1)
+    precio_final = models.DecimalField(max_digits=10, decimal_places=2, default=0)    
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, default=1)
     descripcion = models.CharField(max_length=250, default='', blank=True, null= True)
     imagen = models.ImageField(upload_to='uploads/product/')
@@ -45,6 +66,12 @@ class Producto(models.Model):
     # En Oferta
     is_oferta = models.BooleanField(default=False)
     oferta_precio = models.DecimalField(default=0, decimal_places=2, max_digits=6)
+
+    def save(self, *args, **kwargs):
+        # Calcular el precio final antes de guardar
+        self.precio_final = round(self.precio_base * self.multiplicador)
+
+        super(Producto, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.nombre    

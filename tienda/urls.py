@@ -15,6 +15,9 @@ urlpatterns = [
     # Productos
     path('productos/', views.productos, name="productos"),
     path('productos/<int:pk>', views.producto_id, name = 'producto_id'),
+    path('productos/add/', views.productosadd, name="productosadd"),
+    path('productos/crud/update/<id>/', views.productosupdate, name="productosupdate"),
+    path('productos/crud/delete/<id>/', views.productosdelete, name="productosdelete"),
     # Servicios
     path('servicios/', views.servicios, name="servicios"),
     path('servicios/add/', views.serviciosadd, name="serviciosadd"),

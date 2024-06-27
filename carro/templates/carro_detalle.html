@@ -30,12 +30,12 @@
                             <!-- Sale badge -->
                             <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem;">Oferta</div>
                             <strike>
-                                ${{ producto.precio }}
+                                ${{ producto.precio_final }}
                             </strike>
                             &nbsp;
                             ${{ producto.oferta_precio }}
                         {% else %}
-                            ${{ producto.precio }}
+                            ${{ producto.precio_final }}
                         {% endif %}
                         <br>
                         <br>
@@ -81,14 +81,6 @@
           </div>        
         {% endif %}
     </div>
-
-    {% if primer_item %}
-    <h2>Valor del Dólar Observado para la Fecha Más Reciente:</h2>
-    <p>Fecha: {{ primer_item.fecha }}</p>
-    <p>Valor: {{ primer_item.valor }}</p>
-    {% else %}
-    <p>No hay datos disponibles.</p>
-    {% endif %}
 
 <script>
   // Actualizar carro

@@ -21,3 +21,6 @@ obligatorio:
 	* AXES		sure
 	* Paypal	despues de persistencia
 	* PDF		despues de paypal
+
+	* Quedaste en incorporar api dolar a precio productos.
+	* Hay un error en categorias.

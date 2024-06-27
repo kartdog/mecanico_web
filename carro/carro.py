@@ -72,6 +72,6 @@ class Carro():
                     if producto.is_oferta:
                         total = total + (producto.oferta_precio * value)
                     else:
-                        total = total + (producto.precio * value)
+                        total = total + (producto.precio_final * value)
 
         return total
