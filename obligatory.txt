@@ -4,7 +4,7 @@ obligatorio:
 	* mensajes usuario (sweetalert2)
 	* responsiva
 	* API REST Framework django
-	* 2 APIS (obligatorio: miindicador.cl)
+	* 2 APIS (obligatorio: mindicador.cl)
 	* Paginador
 	* AXES: bloque por minutos, ventana de bloqueo, reseteo de contador, limite de intentos.
 	* Formularios con CAPTCHA
@@ -14,10 +14,10 @@ obligatorio:
 	* Metodo de pago
 	* Carrito
 	
-	* Hosting
-	* Paginador
-	* API
-	* Carrito
-	* AXES
-	* Paypal
-	* PDF
+	* Hosting	ultimo!
+	* Paginador	despues de api
+	* API		sure
+	* Carrito	falta persistencia
+	* AXES		sure
+	* Paypal	despues de persistencia
+	* PDF		despues de paypal

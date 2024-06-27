@@ -5,8 +5,44 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from rest_framework import viewsets
+from rest_framework.renderers import JSONRenderer
+from .serializers import *
 from .models import *
 from .forms import *
+import requests
+
+# Viewset para manejar solicitudes tipo HTTP (GET, POST, PUT, DELETE)
+class EmpleadoViewSet(viewsets.ModelViewSet):
+    queryset = Empleado.objects.all().order_by('id')
+    serializer_class = EmpleadoSerializers
+    renderer_classes = [JSONRenderer]
+
+class ServicioViewSet(viewsets.ModelViewSet):
+    queryset = Servicio.objects.all().order_by('id')
+    serializer_class = ServicioSerializers
+    renderer_classes = [JSONRenderer]
+
+# Métodos para listar desde API.
+def empleadosapi(request):
+    response = requests.get('http://127.0.0.1:8000/api/empleados/')
+    empleados = response.json()
+
+    aux = {
+        'lista' : empleados
+    }
+
+    return render(request, 'tienda/empleados/crudapi/index.html', aux)
+
+def serviciosapi(request):
+    response = requests.get(f'http://127.0.0.1:8000/api/servicios/')
+    servicios = response.json()
+
+    aux = {
+        'lista' : servicios
+    }
+
+    return render(request, 'tienda/servicios/crudapi/index.html', aux)
 
 # Inicio
 def index(request):
@@ -88,7 +124,7 @@ def empleados(request):
 
     return render(request, 'tienda/empleados/index.html', aux)
 
-# @permission_required('tienda.add_empleado')
+@permission_required('tienda.add_empleado')
 def empleadosadd(request):
     aux = {
             'form' : EmpleadoForm()

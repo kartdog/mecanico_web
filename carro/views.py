@@ -3,16 +3,48 @@ from django.contrib import messages
 from django.http import JsonResponse
 from .carro import *
 from tienda.models import Producto
+import requests
+import json
+
+# API
+class Mindicador:
+ 
+    def __init__(self, indicador, year):
+        self.indicador = indicador
+        self.year = year
+    
+    def InfoApi(self):
+        # En este caso hacemos la solicitud para el caso de consulta de un indicador en un año determinado
+        url = f'https://mindicador.cl/api/{self.indicador}/{self.year}'
+        response = requests.get(url)
+        data = json.loads(response.text.encode("utf-8"))
+        # Para que el json se vea ordenado, retornar pretty_json
+        pretty_json = json.dumps(data, indent=2)
+        return data
 
 def carro_detalle(request):
 
     carro = Carro(request)
     carro_productos = carro.get_producto()
-
     cantidades = carro.get_cantidades()
     total = carro.carro_total()
 
-    return render(request, "carro_detalle.html", {"carro_productos": carro_productos, "cantidades": cantidades, "total": total})
+    #  API
+    indicador = Mindicador('dolar', '2024')
+    indicador_data = indicador.InfoApi()
+
+    # Serie
+    serie = indicador_data.get('serie', [])
+    primer_item = serie[0] if serie else None
+
+    contexto = {
+        "carro_productos": carro_productos,
+        "cantidades": cantidades,
+        "total": total,
+        "primer_item": primer_item,
+    }
+
+    return render(request, "carro_detalle.html", contexto)
 
 def carro_agregar(request):
     carro = Carro(request)

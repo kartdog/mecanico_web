@@ -1,5 +1,12 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
 from . import views
+from .views import *
+
+# Configuracion urls para API
+router = routers.DefaultRouter()
+router.register('empleados', EmpleadoViewSet)
+router.register('servicios', ServicioViewSet)
 
 urlpatterns = [
     # Index
@@ -26,4 +33,8 @@ urlpatterns = [
     path('empleados/add/', views.empleadosadd, name="empleadosadd"),
     path('empleados/crud/update/<int:id>/', views.empleadosupdate, name="empleadosupdate"),
     path('empleados/crud/delete/<int:id>/', views.empleadosdelete, name="empleadosdelete"),
+    # API
+    path('api/', include(router.urls)),
+    path('empleadosapi/', empleadosapi, name="empleadosapi"),
+    path('serviciosapi/', serviciosapi, name="serviciosapi"),
 ]

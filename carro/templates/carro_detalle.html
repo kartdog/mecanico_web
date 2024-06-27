@@ -82,6 +82,14 @@
         {% endif %}
     </div>
 
+    {% if primer_item %}
+    <h2>Valor del Dólar Observado para la Fecha Más Reciente:</h2>
+    <p>Fecha: {{ primer_item.fecha }}</p>
+    <p>Valor: {{ primer_item.valor }}</p>
+    {% else %}
+    <p>No hay datos disponibles.</p>
+    {% endif %}
+
 <script>
   // Actualizar carro
   $(document).on('click', '.actualizar-carro', function(e){
