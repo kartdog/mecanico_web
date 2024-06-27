@@ -16,4 +16,9 @@ urlpatterns = [
     path('register/', views.register_user, name = 'register'),
     # Usuario
     path('actualizar_usuario/', views.actualizar_usuario, name = 'actualizar_usuario'),
+    # Empleados
+    path('empleados/', views.empleados, name="empleados"),
+    path('empleados/add/', views.empleadosadd, name="empleadosadd"),
+    path('empleados/crud/update/<int:id>/', views.empleadosupdate, name="empleadosupdate"),
+    path('empleados/crud/delete/<int:id>/', views.empleadosdelete, name="empleadosdelete"),
 ]

@@ -76,7 +76,9 @@
           <h3>Total: ${{ total }}</h3>
           <br>
         {% else %}
-          Vacio
+          <div class="alert alert-danger" role="alert">
+            <h3>Tú carrito esta vacio!</h3>
+          </div>        
         {% endif %}
     </div>
 

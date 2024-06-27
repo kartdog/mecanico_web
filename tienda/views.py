@@ -2,6 +2,7 @@ from django import forms
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .models import *
@@ -76,6 +77,60 @@ def actualizar_usuario(request):
         return redirect('index')
 
     return render(request, 'actualizar_usuario.html', {})
+
+# Empleado
+def empleados(request):
+    empleados = Empleado.objects.all() # SELECT * FROM empleado
+
+    aux = {
+        'lista' : empleados
+    }
+
+    return render(request, 'tienda/empleados/index.html', aux)
+
+# @permission_required('tienda.add_empleado')
+def empleadosadd(request):
+    aux = {
+            'form' : EmpleadoForm()
+    }
+
+    if request.method == 'POST':
+        formulario = EmpleadoForm(request.POST, files=request.FILES)
+        if formulario.is_valid():
+            formulario.save()
+            aux['msj'] = 'Empleado almacenado correctamente!'
+            return redirect('empleados')
+        else:
+            aux['form'] = formulario
+            aux['msj'] = 'No se pudo almacenar :('
+
+    return render(request, 'tienda/empleados/crud/add.html', aux)
+
+def empleadosupdate(request, id):
+    empleado = Empleado.objects.get(id=id)
+    aux = {
+            'form' : EmpleadoForm(instance = empleado)
+    }
+
+    if request.method == 'POST':
+        formulario = EmpleadoForm(data = request.POST, instance = empleado, files=request.FILES)
+        if formulario.is_valid():
+            formulario.save()
+            aux['form'] = formulario
+            aux['msj'] = 'Empleado modificado correctamente!'
+            return redirect('empleados')
+        else:
+            aux['form'] = formulario
+            aux['msj'] = 'No se pudo modificar :('
+
+    return render(request, 'tienda/empleados/crud/update.html', aux)
+
+@permission_required('tienda.delete_empleado')
+def empleadosdelete(request, id):
+    empleado = Empleado.objects.get(id=id)
+    empleado.delete()
+
+    return redirect(to="empleados")
 
 # Producto
 def producto(request, pk):

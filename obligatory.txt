@@ -12,3 +12,4 @@ obligatorio:
 	* Voucher PDF
 	* Recuperar contraseña
 	* Metodo de pago
+	* Carrito

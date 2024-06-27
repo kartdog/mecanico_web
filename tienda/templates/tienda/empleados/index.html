@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Empleados -->
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            {% for aux in lista %}
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img class="card-img-top" src="{{ aux.imagen.url }}" alt="..." />
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder">{{ aux.nombre }}</h5>
+                                    <h5 class="fw-bolder">{{ aux.id }}</h5>
+                                </div>
+                            </div>
+                            <!-- Product actions-->
+                            {% if perms.tienda.change_empleado %}
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center">
+                                <a href="{% url 'empleadosupdate' aux.id %}" class="btn btn-outline-dark bg-warning mt-auto"> Editar empleado</a>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if perms.tienda.change_empleado %}
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center">
+                                <a href="{% url 'empleadosdelete' aux.id %}" class="btn btn-outline-dark bg-danger mt-auto"> Eliminar empleado</a>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<div class="mt-3 w-100 text-center mb-4">
+    <a href="{% url 'empleadosadd' %}" class="btn bg-success btn-outline-dark">Añadir empleado</a>
+</div>
+
+
+{% endblock %}

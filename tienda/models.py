@@ -1,6 +1,15 @@
 from django.db import models
 import datetime
 
+# Empleado
+class Empleado(models.Model):
+    nombre = models.CharField(max_length=100)
+    tipo = models.CharField(max_length=150)
+    imagen = models.ImageField(upload_to='uploads/empleado/', null=True, blank=True)
+
+    def __str__(self):
+        return self.nombre
+
 # Cliente
 class Cliente(models.Model):
     p_nombre = models.CharField(max_length=50)
