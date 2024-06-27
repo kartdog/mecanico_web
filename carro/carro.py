@@ -4,6 +4,8 @@ class Carro():
     def __init__(self, request):
         self.session = request.session
 
+        self.request = request
+
         # Obtener la key de la sesión si es que existe.
         carro = self.session.get('session_key')
 
@@ -25,6 +27,14 @@ class Carro():
             self.carro[producto_id] = int(producto_qty)
         
         self.session.modified = True
+
+        if self.request.user.is_authenticated:
+            current_user = Perfil.objects.filter(usuario__id = self.request.user.id)
+            carrojson = str(self.carro)
+            carrojson = carrojson.replace("\'", "\"")
+
+            current_user.update(carrito_viejo = str(carrojson))
+
 
     def __len__(self):
         return len(self.carro)

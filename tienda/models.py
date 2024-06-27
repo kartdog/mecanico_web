@@ -55,6 +55,7 @@ class Perfil(models.Model):
     comuna = models.CharField(max_length=200, blank=True)
     zipcode = models.CharField(max_length=200, blank=True)
     pais = models.CharField(max_length=200, blank=True)
+    carrito_viejo = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return self.usuario.username
