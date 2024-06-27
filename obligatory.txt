@@ -13,3 +13,11 @@ obligatorio:
 	* Recuperar contraseña
 	* Metodo de pago
 	* Carrito
+	
+	* Hosting
+	* Paginador
+	* API
+	* Carrito
+	* AXES
+	* Paypal
+	* PDF

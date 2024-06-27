@@ -99,10 +99,12 @@ def empleadosadd(request):
         if formulario.is_valid():
             formulario.save()
             aux['msj'] = 'Empleado almacenado correctamente!'
+            messages.success(request, ("El empleado se ha creado exitosamente!"))
             return redirect('empleados')
         else:
             aux['form'] = formulario
             aux['msj'] = 'No se pudo almacenar :('
+            messages.success(request, ("Ha ocurrido un error al crear Empleado, vuelva a intentarlo"))
 
     return render(request, 'tienda/empleados/crud/add.html', aux)
 
@@ -118,10 +120,12 @@ def empleadosupdate(request, id):
             formulario.save()
             aux['form'] = formulario
             aux['msj'] = 'Empleado modificado correctamente!'
+            messages.success(request, ("El empleado se ha modificado exitosamente!"))
             return redirect('empleados')
         else:
             aux['form'] = formulario
             aux['msj'] = 'No se pudo modificar :('
+            messages.success(request, ("Ha ocurrido un error al modificar Empleado, vuelva a intentarlo"))
 
     return render(request, 'tienda/empleados/crud/update.html', aux)
 
@@ -130,6 +134,7 @@ def empleadosdelete(request, id):
     empleado = Empleado.objects.get(id=id)
     empleado.delete()
 
+    messages.success(request, ("El empleado se ha eliminado exitosamente!"))
     return redirect(to="empleados")
 
 # Producto
