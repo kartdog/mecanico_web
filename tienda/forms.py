@@ -18,6 +18,13 @@ class ServicioForm(ModelForm):
         model = Servicio
         fields = '__all__'
 
+# Producto
+class ProductoForm(ModelForm):
+
+    class Meta:
+        model = Producto
+        fields = '__all__'
+
 # Sesión
 class UpdateUserForm(UserChangeForm):
     password = None

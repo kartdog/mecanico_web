@@ -174,9 +174,18 @@ def empleadosdelete(request, id):
     return redirect(to="empleados")
 
 # Producto
-def producto(request, pk):
+def producto_id(request, pk):
     producto = Producto.objects.get(id=pk)
     return render(request, 'producto.html', {'producto': producto})
+
+def productos(request):
+    productos = Producto.objects.all()
+
+    aux = {
+        'lista': productos
+    }
+
+    return render(request, 'tienda/productos/index.html', aux)
 
 # Servicio
 def servicios(request):
@@ -243,6 +252,9 @@ def categoria(request, foo):
         categoria = Categoria.objects.get(nombre=foo)
         productos = Producto.objects.filter(categoria=categoria)
         return render(request, 'categoria.html', {'productos': productos, 'categoria': categoria})
-    except:
+    except Categoria.DoesNotExist:
         messages.success(request, ("La categoria no existe."))
+        return redirect('index')
+    except Exception as e:
+        messages.error(request, f"Error inesperado: {e}")
         return redirect('index')
