@@ -2,9 +2,29 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.http import JsonResponse
 from .carro import *
-from tienda.models import Producto
+from tienda.models import *
 import requests
 import json
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.views import View
+
+from io import BytesIO
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+
+# Render
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return None
 
 # API
 class Mindicador:
@@ -45,6 +65,21 @@ def carro_detalle(request):
     }
 
     return render(request, "carro_detalle.html", contexto)
+
+def generar_pdf(request):
+    carro = Carro(request)
+    carro_productos = carro.get_producto()
+    cantidades = carro.get_cantidades()
+    total = carro.carro_total()
+
+    contexto = {
+        "carro_productos": carro_productos,
+        "cantidades": cantidades,
+        "total": total,
+    }
+
+    pdf = render_to_pdf('carro_pdf.html', contexto)
+    return pdf  # Devuelve el PDF generado
 
 def carro_agregar(request):
     carro = Carro(request)

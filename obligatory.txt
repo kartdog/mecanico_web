@@ -25,6 +25,17 @@ obligatorio:
 	* Quedaste en incorporar api dolar a precio productos.
 	* Hay un error en categorias.
 
+	( FALTA )
+	* Agregar permisos
+	* Paginador
+	* AXES
+	* # sweetalert2 a servicios
+	* carrusel
+	* CAPTCHA
+	* Hosting
+	* # Recuperar contra
+
+
 	https://sandbox.paypal.com
 	TIENDA:
 	sb-rexls31270066@business.example.com

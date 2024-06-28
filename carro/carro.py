@@ -54,7 +54,6 @@ class Carro():
 
             current_user.update(carrito_viejo = str(carrojson))
 
-
     def __len__(self):
         return len(self.carro)
     
@@ -83,7 +82,7 @@ class Carro():
             carrojson = carrojson.replace("\'", "\"")
 
             current_user.update(carrito_viejo = str(carrojson))
-            
+
         test = self.carro
         return test
     

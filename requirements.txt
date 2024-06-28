@@ -1,3 +1,4 @@
 django
 djangorestframework
 pillow
+xhtml2pdf

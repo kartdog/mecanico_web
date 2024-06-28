@@ -2,6 +2,7 @@ from django.urls import path, include
 from rest_framework import routers
 from . import views
 from .views import *
+from carro.views import generar_pdf
 
 # Configuracion urls para API
 router = routers.DefaultRouter()
@@ -18,6 +19,9 @@ urlpatterns = [
     path('productos/add/', views.productosadd, name="productosadd"),
     path('productos/crud/update/<id>/', views.productosupdate, name="productosupdate"),
     path('productos/crud/delete/<id>/', views.productosdelete, name="productosdelete"),
+    # Compras
+    # path('registrar-compra/', RegistrarCompraView.as_view(), name='registrar_compra'),
+    path('historial-compras/', historial_compras, name='historial_compras'),
     # Servicios
     path('servicios/', views.servicios, name="servicios"),
     path('servicios/add/', views.serviciosadd, name="serviciosadd"),
@@ -42,4 +46,6 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('empleadosapi/', empleadosapi, name="empleadosapi"),
     path('serviciosapi/', serviciosapi, name="serviciosapi"),
+    # PDF
+    path('pdf/', generar_pdf, name='generar_pdf'),
 ]

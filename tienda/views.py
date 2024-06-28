@@ -4,7 +4,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import authenticate, login, logout
+from django.views import View
 from django.contrib import messages
+from django.http import JsonResponse
 from rest_framework import viewsets
 from rest_framework.renderers import JSONRenderer
 from carro.carro import Carro
@@ -13,6 +15,18 @@ from .models import *
 from .forms import *
 import requests
 import json
+
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.views import View
+
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from .models import Producto
+from io import *
 
 # API Dolar
 class Mindicador:
@@ -292,6 +306,11 @@ def productosdelete(request, id):
 
     messages.success(request, ("El producto se ha eliminado exitosamente!"))
     return redirect(to="productos")
+
+# Compras
+def historial_compras(request):
+    compras = Compra.objects.filter(usuario=request.user).order_by('-fecha_compra')
+    return render(request, 'historial_compras.html', {'compras': compras})
 
 # Servicio
 def servicios(request):
