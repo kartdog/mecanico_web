@@ -161,9 +161,9 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 cloudinary.config(
-    cloud_name = 'daxzs9wgv',
-    api_key = '114644175899441',
-    api_secret = 'tXTPOjk_9LhLVDhSAYYkkQGqlWA'
+    cloud_name = 'dy9ztn1gx',
+    api_key = '352526749271634',
+    api_secret = 'JRZ3SOcQB_3GsP5ZMLTijH2mp6U'
 )
 
 AXES_FAILURE_LIMIT = 3
