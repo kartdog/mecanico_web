@@ -25,15 +25,22 @@ obligatorio:
 	* Quedaste en incorporar api dolar a precio productos.
 	* Hay un error en categorias.
 
-	( FALTA )
-	* Agregar permisos
-	* Paginador
+	( FALTA POR ORDEN )
+	* Eliminar carrito despues de compra y pdf mostrar	CHECK!
 	* AXES
-	* # sweetalert2 a servicios
-	* carrusel
 	* CAPTCHA
+	* Paginador
+	* Agregar permisos
+	* carrusel y pág principal completar
 	* Hosting
-	* # Recuperar contra
+	* # sweetalert2 a servicios
+	* # Recuperar contra (si hay ganas)
+
+	admin
+	admin
+	
+	usuario
+	contra123
 
 
 	https://sandbox.paypal.com

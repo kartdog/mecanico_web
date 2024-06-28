@@ -79,7 +79,16 @@ def generar_pdf(request):
     }
 
     pdf = render_to_pdf('carro_pdf.html', contexto)
-    return pdf  # Devuelve el PDF generado
+
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        filename = 'carro_compras.pdf'
+        content = f'attachment; filename="{filename}"'
+        response['Content-Disposition'] = content
+        return response
+    
+    # Maneja el caso en que no se puede generar el PDF
+    return HttpResponse("Error al generar el PDF", status=500)
 
 def carro_agregar(request):
     carro = Carro(request)
@@ -107,6 +116,20 @@ def carro_eliminar(request):
         response = JsonResponse({'product': producto_id})
         messages.success(request, ("El producto se ha eliminado del carrito!"))
         return response
+    
+def carro_eliminar_general(request):
+    if request.POST:
+        if request.user.is_authenticated:
+            for key in list(request.session.keys()):
+                if key == "session_key":
+					# Delete the key
+                    del request.session[key]
+
+            current_user = Perfil.objects.filter(usuario__id=request.user.id)
+            current_user.update(carrito_viejo="")
+            
+            return HttpResponse("Todos los productos del carrito han sido eliminados y el carrito viejo ha sido reiniciado.")
+    return HttpResponse("Error: Acceso no autorizado o método no permitido.")
 
 def carro_actualizar(request):
     carro = Carro(request)

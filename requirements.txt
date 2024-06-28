@@ -1,4 +1,5 @@
 django
 djangorestframework
+django-axes
 pillow
 xhtml2pdf

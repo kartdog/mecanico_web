@@ -73,8 +73,9 @@
           </div>
         {% endfor %}
           <h3>Total: ${{ total }}</h3>
-          <div style="justify-content: center;" class="text-center" id="paypal-button"></div>
+          <div style="justify-content: center;" class="text-center eliminar-carrito-general" id="paypal-button"></div>
           <a href="{% url 'generar_pdf' %}" class="btn btn-primary">Descargar PDF</a>
+          <button class="btn btn-danger eliminar-carrito-general">Eliminar Carrito</button>
           <br>
         {% else %}
           <div class="alert alert-danger" role="alert">
@@ -120,7 +121,10 @@
     onAuthorize: function (data, actions) {
       return actions.payment.execute().then(function () {
         // Show a confirmation message to the buyer
+        mostrarPDF();
         window.alert('Thank you for your purchase!');
+        // Ejecutar la eliminación del carrito después de mostrar el mensaje
+        eliminarCarrito();
 });
 }
 }, '#paypal-button');
@@ -177,17 +181,66 @@
 
     });
   })
+
+  $(document).on('click', '.eliminar-carrito-general', function(e) {
+    e.preventDefault();
+
+    $.ajax({
+        type: 'POST',
+        url: '{% url 'carro_eliminar_general' %}',  // Cambia 'carro_eliminar' por 'carro_eliminar_general'
+        data: {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+        },
+        success: function(json) {
+            location.reload();  // Recargar la página después de eliminar el carrito
+        },
+        error: function(xhr, errmsg, err) {
+            console.error('Error al eliminar el carrito:', errmsg);
+        }
+    });
+  });
+
+  function eliminarCarrito() {
+    $.ajax({
+        type: 'POST',
+        url: '{% url 'carro_eliminar_general' %}',
+        data: {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+        },
+        success: function(json) {
+            location.reload();  // Recargar la página después de eliminar el carrito
+        },
+        error: function(xhr, errmsg, err) {
+            console.error('Error al eliminar el carrito:', errmsg);
+        }
+    });
+
+    
+}
+
+function mostrarPDF() {
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'generar_pdf' %}',  // Ajusta esta URL según tu configuración
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    action: 'post'
+                },
+                success: function(response) {
+                    console.log('PDF generado con éxito');
+                    // Manejar la respuesta del servidor aquí
+                    // Por ejemplo, abrir el PDF en una nueva ventana
+                    window.open('/pdf/', '_blank');
+                },
+                error: function(xhr, errmsg, err) {
+                    console.error('Error al generar el PDF:', errmsg);
+                }
+            });
+        }
+
+
 </script>
 
 {% endblock %}
-
-<!-- 
-    // Execute the payment
-    onAuthorize: function (data, actions) {
-      return actions.payment.execute().then(function () {
-        // Show a confirmation message to the buyer
-        window.alert('Thank you for your purchase!');
-});
-}
-}, '#paypal-button');
--->

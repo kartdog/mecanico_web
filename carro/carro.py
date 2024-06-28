@@ -100,6 +100,11 @@ class Carro():
 
             current_user.update(carrito_viejo = str(carrojson))
 
+    def eliminar_general(request):
+        for key in list(request.session.keys()):
+            if key == "session_key":
+                del request.session[key]
+
     def carro_total(self):
         producto_ids = self.carro.keys()
         productos = Producto.objects.filter(id__in=producto_ids)

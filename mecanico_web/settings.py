@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'tienda',
     'carro',
+    'axes'
 ]
 
 MIDDLEWARE = [
@@ -121,3 +122,12 @@ EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# CONFIG AXES
+AUTHENTICATION_BACKENDS = [
+    # AxesStandaloneBackend should be the first backend in the AUTHENTICATION_BACKENDS list.
+    'axes.backends.AxesStandaloneBackend',
+
+    # Django ModelBackend is the default authentication backend.
+    'django.contrib.auth.backends.ModelBackend',
+]
