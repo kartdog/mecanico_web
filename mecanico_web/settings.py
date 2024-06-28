@@ -1,6 +1,9 @@
 from datetime import timedelta
 from pathlib import Path
 import os
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -15,8 +18,7 @@ SECRET_KEY = 'django-insecure-lk+@s%fjp-4&mwr9u1()*hx!r34(rx+wwj-sg=q_xuh0p4m8ar
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['.vercel.app','127.0.0.1']
 
 # Application definition
 
@@ -123,6 +125,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = ['static/']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -143,6 +147,12 @@ AUTHENTICATION_BACKENDS = [
     # Django ModelBackend is the default authentication backend.
     'django.contrib.auth.backends.ModelBackend',
 ]
+
+cloudinary.config(
+    cloud_name = 'daxzs9wgv',
+    api_key = '114644175899441',
+    api_secret = 'tXTPOjk_9LhLVDhSAYYkkQGqlWA'
+)
 
 AXES_FAILURE_LIMIT = 3
 AXES_COOLOFF_TIME = timedelta(minutes=1)

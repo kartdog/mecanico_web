@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from cloudinary.models import CloudinaryField
 import datetime
 import requests
 import json
@@ -87,7 +88,7 @@ class Producto(models.Model):
     precio_final = models.DecimalField(max_digits=10, decimal_places=2, default=0)    
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, default=1)
     descripcion = models.CharField(max_length=250, default='', blank=True, null= True)
-    imagen = models.ImageField(upload_to='uploads/product/')
+    imagen = CloudinaryField('imagen')
 
     # En Oferta
     is_oferta = models.BooleanField(default=False)
@@ -121,7 +122,7 @@ class CompraProducto(models.Model):
 class Servicio(models.Model):
     nombre_servicio = models.CharField(max_length=200)
     descripcion_servicio = models.TextField(max_length=550)
-    imagen_servicio = models.ImageField(upload_to='uploads/servicio/', null=True, blank=True)
+    imagen_servicio = CloudinaryField('imagen')
     def __str__(self):
         return self.nombre_servicio
 
