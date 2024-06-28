@@ -1,5 +1,6 @@
 from django import forms
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required, permission_required
@@ -55,6 +56,11 @@ class ServicioViewSet(viewsets.ModelViewSet):
     serializer_class = ServicioSerializers
     renderer_classes = [JSONRenderer]
 
+class ProductoViewSet(viewsets.ModelViewSet):
+    queryset = Producto.objects.all().order_by('id')
+    serializer_class = ProductoSerializers
+    renderer_classes = [JSONRenderer]
+
 # Métodos para listar desde API.
 def empleadosapi(request):
     response = requests.get('http://127.0.0.1:8000/api/empleados/')
@@ -75,6 +81,20 @@ def serviciosapi(request):
     }
 
     return render(request, 'tienda/servicios/crudapi/index.html', aux)
+
+def productosapi(request):
+    response = requests.get('http://127.0.0.1:8000/api/productos/')
+    productos = response.json()
+
+    paginator = Paginator(productos, 4)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    aux = {
+        'page_obj': page_obj
+    }
+
+    return render(request, 'tienda/productos/crudapi/index.html', aux)
 
 # Inicio
 def index(request):
@@ -174,6 +194,9 @@ def actualizar_info(request):
     else:
         messages.success(request, "Debes iniciar sesión para acceder a esa página.")
         return redirect('index')
+    
+def account_locked(request):
+    return render(request, 'account_locked.html')
 
 # Empleado
 def empleados(request):

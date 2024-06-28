@@ -27,9 +27,9 @@ obligatorio:
 
 	( FALTA POR ORDEN )
 	* Eliminar carrito despues de compra y pdf mostrar	CHECK!
-	* AXES
-	* CAPTCHA
-	* Paginador
+	* AXES												CHECK!
+	* CAPTCHA											CHECK!
+	* Paginador											CHECK!
 	* Agregar permisos
 	* carrusel y pág principal completar
 	* Hosting

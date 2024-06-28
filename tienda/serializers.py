@@ -12,3 +12,8 @@ class ServicioSerializers(serializers.ModelSerializer):
     class Meta:
         model = Servicio
         fields = '__all__'
+
+class ProductoSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Producto
+        fields = '__all__'

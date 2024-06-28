@@ -1,3 +1,4 @@
+from datetime import timedelta
 from pathlib import Path
 import os
 
@@ -20,16 +21,25 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'admin_interface',
+    'colorfield',
+    'multi_captcha_admin',
+    'admin_confirm',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
     'tienda',
     'carro',
-    'axes'
+    'crispy_forms',
+    'crispy_bootstrap4',
+    'rest_framework',
+    'axes',
+    'captcha',
+    'django_recaptcha',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -40,6 +50,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #AXES
+    'axes.middleware.AxesMiddleware', 
 ]
 
 ROOT_URLCONF = 'mecanico_web.urls'
@@ -131,3 +143,18 @@ AUTHENTICATION_BACKENDS = [
     # Django ModelBackend is the default authentication backend.
     'django.contrib.auth.backends.ModelBackend',
 ]
+
+AXES_FAILURE_LIMIT = 3
+AXES_COOLOFF_TIME = timedelta(minutes=1)
+AXES_LOCKOUT_URL = '/account_locked/'
+AXES_RESET_ON_SUCCESS = True
+
+
+# RECAPTCHA
+RECAPTCHA_PUBLIC_KEY = '6LehLfcpAAAAAGZ2GPjTszoUNkqCsPdC587iU5Qx'
+RECAPTCHA_PRIVATE_KEY = '6LehLfcpAAAAAAHHWP6hxnrnz91zG22cY2yUBjOG'
+
+# MULTICAPTCHA
+MULTI_CAPTCHA_ADMIN = {
+    'engine': 'simple-captcha',
+}

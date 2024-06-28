@@ -2,6 +2,8 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django_recaptcha.fields import ReCaptchaField
+from captcha.fields import CaptchaField
 from .models import *
 
 # Usuario
@@ -20,6 +22,7 @@ class UserInfoForm(forms.ModelForm):
 
 # Empleado
 class EmpleadoForm(ModelForm):
+    captcha = ReCaptchaField()
 
     class Meta:
         model = Empleado
@@ -27,6 +30,7 @@ class EmpleadoForm(ModelForm):
 
 # Servicio
 class ServicioForm(ModelForm):
+    captcha = CaptchaField()
 
     class Meta:
         model = Servicio
@@ -34,6 +38,7 @@ class ServicioForm(ModelForm):
 
 # Producto
 class ProductoForm(ModelForm):
+    captcha = CaptchaField()
 
     class Meta:
         model = Producto
@@ -41,6 +46,8 @@ class ProductoForm(ModelForm):
 
 # Sesión
 class UpdateUserForm(UserChangeForm):
+    captcha = CaptchaField()
+
     password = None
     email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Correo electronico'}))
     first_name = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Nombre'}))
@@ -59,6 +66,8 @@ class UpdateUserForm(UserChangeForm):
         self.fields['username'].help_text = '<span class="form-text text-muted"><small>Obligatorio. 150 caracteres o menos. Solo letras, digitos y @/./+/-/_</small></span>'
 
 class SignUpForm(UserCreationForm):
+    captcha = CaptchaField()
+
     email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Correo electronico'}))
     first_name = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Nombre'}))
     last_name = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Apellido'}))

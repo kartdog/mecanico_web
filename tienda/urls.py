@@ -8,6 +8,7 @@ from carro.views import generar_pdf
 router = routers.DefaultRouter()
 router.register('empleados', EmpleadoViewSet)
 router.register('servicios', ServicioViewSet)
+router.register('productos', ProductoViewSet)
 
 urlpatterns = [
     # Index
@@ -32,6 +33,8 @@ urlpatterns = [
     # Login
     path('login/', views.login_user, name = 'login'),
     path('logout/', views.logout_user, name = 'logout'),
+    # AXES
+    path('account_locked/', views.account_locked, name='account_locked'),
     # Registro
     path('register/', views.register_user, name = 'register'),
     # Usuario
@@ -46,6 +49,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('empleadosapi/', empleadosapi, name="empleadosapi"),
     path('serviciosapi/', serviciosapi, name="serviciosapi"),
+    path('productosapi/', productosapi, name="productosapi"),
     # PDF
     path('pdf/', generar_pdf, name='generar_pdf'),
 ]

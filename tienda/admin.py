@@ -1,6 +1,12 @@
 from django.contrib import admin
+from django.contrib.admin import ModelAdmin
 from .models import *
 from django.contrib.auth.models import User
+from admin_confirm import AdminConfirmMixin
+
+class EmpleadoAdmin(AdminConfirmMixin, ModelAdmin):
+    confirm_change = True
+    confirmation_fields = ['nombre','tipo','imagen']
 
 admin.site.register(Cliente)
 admin.site.register(Perfil)
@@ -12,7 +18,7 @@ admin.site.register(Orden)
 admin.site.register(Compra)
 admin.site.register(CompraProducto)
 
-admin.site.register(Empleado)
+admin.site.register(Empleado, EmpleadoAdmin)
 
 class PerfilInline(admin.StackedInline):
     model = Perfil
